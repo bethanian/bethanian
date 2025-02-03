@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function selectQuestions() {
     const shuffledQuestions = [...allQuestions];
     shuffleArray(shuffledQuestions);
-    questions = shuffledQuestions.slice(0, 10);
+    questions = shuffledQuestions.slice(0, 20);
   }
 
   function startGame() {
