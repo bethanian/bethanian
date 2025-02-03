@@ -39,15 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'multiple-choice',
-      question: 'Anong uri ng kayarian ng salita ang \'bahay-kubo\'?',
+      question: 'Anong uri ng kayarian ng salita ang \'banghay-aralin\'?',
       answers: ['Payak', 'Maylapi', 'Tambalan', 'Inuulit'],
       correctAnswer: 2
     },
     {
       type: 'multiple-choice',
       question: 'Anong uri ng kayarian ng salita ang \'tawag\'?',
-      answers: ['Maylapi', 'Inuulit', 'Payak', 'Tambalan'],
-      correctAnswer: 2
+      answers: ['Maylapi', 'Inuulit', 'Tambalan', 'Payak'],
+      correctAnswer: 3
     },
     {
       type: 'multiple-choice',
@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'multiple-choice',
-      question: 'Anong uri ng kayarian ng salita ang \'tuwing-tuwina\'?',
+      question: 'Anong uri ng kayarian ng salita ang \'anak-dalita\'?',
       answers: ['Payak', 'Maylapi', 'Inuulit', 'Tambalan'],
-      correctAnswer: 2
+      correctAnswer: 3
     },
     {
       type: 'multiple-choice',
@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       type: 'multiple-choice',
       question: 'Anong uri ng kayarian ng salita ang \'nagbasa\'?',
-      answers: ['Tambalan', 'Maylapi', 'Inuulit', 'Payak'],
-      correctAnswer: 1
+      answers: ['Maylapi', 'Tambalan', 'Inuulit', 'Payak'],
+      correctAnswer: 0
     },
     {
       type: 'multiple-choice',
@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       type: 'multiple-choice',
       question: 'Anong uri ng kayarian ng salita ang \'binasa\'?',
-      answers: ['Payak', 'Tambalan', 'Maylapi', 'Inuulit'],
-      correctAnswer: 2
+      answers: ['Maylapi', 'Tambalan', 'Payak', 'Inuulit'],
+      correctAnswer: 0
     },
     {
       type: 'multiple-choice',
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'multiple-choice',
-      question: 'Anong uri ng kayarian ng salita ang \'matanglawin\'?',
+      question: 'Anong uri ng kayarian ng salita ang \'lakas\'?',
       answers: ['Inuulit', 'Maylapi', 'Tambalan', 'Payak'],
       correctAnswer: 3
     },
@@ -124,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       type: 'multiple-choice',
       question: 'Anong uri ng kayarian ng salita ang \'sinulat\'?',
-      answers: ['Payak', 'Inuulit', 'Maylapi', 'Tambalan'],
-      correctAnswer: 2
+      answers: ['Maylapi', 'Inuulit', 'Payak', 'Tambalan'],
+      correctAnswer: 0
     },
     {
       type: 'multiple-choice',
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'multiple-choice',
-      question: 'Anong uri ng kayarian ng salita ang \'buntot-pagi\'?',
+      question: 'Anong uri ng kayarian ng salita ang \'agaw-buhay\'?',
       answers: ['Maylapi', 'Inuulit', 'Tambalan', 'Payak'],
       correctAnswer: 2
     },
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'fill-blank',
-      question: 'Bawal kang s____abi ng kahit ano',
+      question: '____inom ako ng gatas.',
       options: ['in', 'um', 'ma', 'an'],
       correctAnswer: 'um'
     },
@@ -171,9 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'fill-blank',
-      question: 'Inom__ ko na ang tubig.',
+      question: 'P____unta kami sa parke nag masaya.',
       options: ['nag', 'um', 'i', 'in'],
-      correctAnswer: 'in'
+      correctAnswer: 'um'
     },
     {
       type: 'fill-blank',
@@ -195,15 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'fill-blank',
-      question: '____lakad kami sa parke.',
-      options: ['mag', 'um', 'i', 'pa'],
-      correctAnswer: 'mag'
+      question: 'T____akbo siya ng ____bilis.',
+      options: ['um/ma', 'ma/i', 'i/pa', 'pa/in'],
+      correctAnswer: 'um/ma'
     },
     {
       type: 'fill-blank',
-      question: '____sulat ako ng liham para sa aking kaibigan.',
-      options: ['mag', 'um', 'na', 'an'],
-      correctAnswer: 'mag'
+      question: '____akyat ako sa hadgdanan.',
+      options: ['um', 'su', 'na', 'an'],
+      correctAnswer: 'um'
     },
     {
       type: 'fill-blank',
@@ -213,14 +213,14 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'fill-blank',
-      question: '____bili ako ng bagong damit.',
-      options: ['mag', 'um', 'i', 'pa'],
-      correctAnswer: 'mag'
+      question: 'b____ili ako ng bagong damit.',
+      options: ['na', 'um', 'i', 'pa'],
+      correctAnswer: 'um'
     },
     {
       type: 'fill-blank',
       question: 'Ang aking ina ay ____luto ng masarap na ulam.',
-      options: ['ka', 'mag', 'um', 'i'],
+      options: ['ka', 'um', 'nag', 'i'],
       correctAnswer: 'mag'
     },
     {
@@ -243,8 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       type: 'fill-blank',
-      question: 'T____itingin ako sa salamin.',
-      options: ['nag', 'um', 'ma', 'i'],
+      question: 'L____akas ang aking katawan!',
+      options: ['um', 'mag', 'ma', 'i'],
       correctAnswer: 'um'
     },
     {
