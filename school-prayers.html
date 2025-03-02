@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Prayers - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .PrayerContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundElements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .FloatingSymbol {
+            position: absolute;
+            opacity: 0.1;
+            filter: blur(1px);
+            animation: floatSymbol 20s infinite linear;
+        }
+
+        .Cross {
+            width: 60px;
+            height: 80px;
+            border: 4px solid white;
+            border-radius: 5px;
+        }
+
+        .Cross::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 100px;
+            height: 4px;
+            background: white;
+            border-radius: 2px;
+            transform: translateY(-50%);
+        }
+
+        .Dove {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .Symbol1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .Symbol2 { top: 30%; right: 15%; animation-delay: -5s; }
+        .Symbol3 { bottom: 20%; left: 20%; animation-delay: -10s; }
+        .Symbol4 { bottom: 40%; right: 25%; animation-delay: -15s; }
+
+        @keyframes floatSymbol {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(50px, -30px) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translate(0, -60px) rotate(180deg) scale(1);
+            }
+            75% {
+                transform: translate(-50px, -30px) rotate(270deg) scale(1.1);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg) scale(1);
+            }
+        }
+
+        .LightBeams {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+            animation: beamRotate 20s infinite linear;
+            mix-blend-mode: overlay;
+        }
+
+        @keyframes beamRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .PrayerGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            perspective: 1000px;
+        }
+
+        .PrayerCard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            transform: translateZ(0) rotateX(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: cardReveal 0.8s ease-out forwards;
+        }
+
+        .PrayerCard:nth-child(2) { animation-delay: 0.2s; }
+        .PrayerCard:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .PrayerCard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .PrayerCard:hover {
+            transform: translateY(-10px) rotateX(5deg) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(255, 121, 0, 0.2),
+                0 0 120px rgba(255, 165, 0, 0.1);
+        }
+
+        .PrayerCard:hover::before {
+            transform: scaleX(1);
+        }
+
+        .PrayerIcon {
+            font-size: 2rem;
+            color: #FF7900;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            transform: translateY(0) scale(1);
+            text-shadow: 0 0 0 rgba(255, 121, 0, 0);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: none;
+        }
+
+        .PrayerIcon::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(circle at center, rgba(255, 121, 0, 0.2), transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: none;
+        }
+
+        .PrayerCard:not(:hover) .PrayerIcon {
+            animation: none;
+        }
+
+        .PrayerCard:not(:hover) .PrayerIcon::before {
+            animation: none;
+        }
+
+        .PrayerCard:hover .PrayerIcon {
+            animation: none;
+            transform: translateY(-8px) scale(1.15);
+            color: #FFA500;
+            text-shadow: 
+                0 0 15px rgba(255, 121, 0, 0.3),
+                0 0 30px rgba(255, 165, 0, 0.2);
+        }
+
+        .PrayerCard:hover .PrayerIcon::before {
+            animation: none;
+            opacity: 1;
+            transform: scale(1.5);
+        }
+
+        .PrayerIcon i {
+            display: inline-block;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .PrayerCard:hover .PrayerIcon i {
+            animation: gentleFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .PrayerTitle {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .PrayerTitle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: #FF7900;
+            transition: width 0.4s ease;
+        }
+
+        .PrayerCard:hover .PrayerTitle::after {
+            width: 100px;
+        }
+
+        .PrayerText {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .PrayerTime {
+            font-size: 0.9rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .PrayerTime i {
+            font-size: 1rem;
+            color: #FF7900;
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .PageTitle p {
+                font-size: 1.1rem;
+            }
+
+            .PrayerGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="PrayerContainer">
+        <div class="BackgroundElements">
+            <div class="LightBeams"></div>
+            <div class="FloatingSymbol Cross Symbol1"></div>
+            <div class="FloatingSymbol Dove Symbol2"><i class="fas fa-dove"></i></div>
+            <div class="FloatingSymbol Cross Symbol3"></div>
+            <div class="FloatingSymbol Dove Symbol4"><i class="fas fa-dove"></i></div>
+        </div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>School Prayers</h1>
+                <p>Join us in daily prayer as we seek guidance, wisdom, and blessings for our school community, however these prayers are not mandatory.</p>
+            </div>
+
+            <div class="PrayerGrid">
+                <div class="PrayerCard">
+                    <div class="PrayerIcon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h2 class="PrayerTitle">Morning Prayer</h2>
+                    <p class="PrayerText">Dear Lord, as we begin this day, fill our hearts with Your love and wisdom. Guide our steps, bless our learning, and help us grow in faith and knowledge.</p>
+                    <div class="PrayerTime">
+                        <i class="far fa-clock"></i>
+                        <span>7:30 AM - Start of Classes</span>
+                    </div>
+                </div>
+
+                <div class="PrayerCard">
+                    <div class="PrayerIcon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h2 class="PrayerTitle">Grace Before Meals</h2>
+                    <p class="PrayerText">Bless us, O Lord, and these Your gifts which we are about to receive from Your bounty. Through Christ our Lord. Amen.</p>
+                    <div class="PrayerTime">
+                        <i class="far fa-clock"></i>
+                        <span>12:00 PM - Lunch Time</span>
+                    </div>
+                </div>
+
+                <div class="PrayerCard">
+                    <div class="PrayerIcon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h2 class="PrayerTitle">Dismissal Prayer</h2>
+                    <p class="PrayerText">Heavenly Father, thank You for the blessings of this day. Watch over us as we return home, and bring us back safely tomorrow to continue our journey of learning.</p>
+                    <div class="PrayerTime">
+                        <i class="far fa-clock"></i>
+                        <span>4:30 PM - End of Classes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

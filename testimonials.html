@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonials - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .TestimonialsHero {
+            height: 60vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .QuotePattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .FloatingQuote {
+            position: absolute;
+            font-size: 120px;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: Georgia, serif;
+            animation: quoteFloat 10s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes quoteFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(5deg); }
+            50% { transform: translate(0, 0) rotate(0deg); }
+            75% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        .Quote1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .Quote2 { top: 20%; right: 15%; animation-delay: 2s; }
+        .Quote3 { bottom: 15%; left: 20%; animation-delay: 4s; }
+        .Quote4 { bottom: 20%; right: 10%; animation-delay: 6s; }
+
+        .HeroContent {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .HeroContent h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .HeroContent p {
+            font-size: 1.4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .TestimonialsContainer {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .TestimonialCard {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .TestimonialCard:nth-child(2) { animation-delay: 0.2s; }
+        .TestimonialCard:nth-child(3) { animation-delay: 0.4s; }
+
+        .QuoteIcon {
+            position: absolute;
+            font-size: 200px;
+            color: rgba(255, 121, 0, 0.05);
+            top: -30px;
+            right: -30px;
+            transform: rotate(180deg);
+            transition: all 0.6s ease;
+        }
+
+        .TestimonialCard:hover .QuoteIcon {
+            transform: rotate(360deg) scale(1.2);
+            color: rgba(255, 121, 0, 0.08);
+        }
+
+        .TestimonialContent {
+            position: relative;
+            z-index: 1;
+        }
+
+        .TestimonialText {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .TestimonialText::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(to bottom, #FF7900, #FFA500);
+            transition: height 0.4s ease;
+        }
+
+        .TestimonialCard:hover .TestimonialText::before {
+            height: 100%;
+        }
+
+        .TestimonialAuthor {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .AuthorImage {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .AuthorImage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .AuthorImage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 121, 0, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .TestimonialCard:hover .AuthorImage img {
+            transform: scale(1.1);
+        }
+
+        .TestimonialCard:hover .AuthorImage::before {
+            opacity: 1;
+        }
+
+        .AuthorInfo {
+            flex-grow: 1;
+        }
+
+        .AuthorName {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .AuthorName::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FF7900;
+            transition: width 0.4s ease;
+        }
+
+        .TestimonialCard:hover .AuthorName::after {
+            width: 100%;
+        }
+
+        .AuthorRole {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .TestimonialRating {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .Star {
+            color: #FFD700;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: starPop 0.4s ease forwards;
+        }
+
+        @keyframes starPop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .Star:nth-child(1) { animation-delay: 0.1s; }
+        .Star:nth-child(2) { animation-delay: 0.2s; }
+        .Star:nth-child(3) { animation-delay: 0.3s; }
+        .Star:nth-child(4) { animation-delay: 0.4s; }
+        .Star:nth-child(5) { animation-delay: 0.5s; }
+
+        .TestimonialTags {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .Tag {
+            padding: 5px 15px;
+            background: rgba(255, 121, 0, 0.1);
+            color: #FF7900;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .TestimonialCard:hover .Tag {
+            background: #FF7900;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .FilterButtons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .FilterButton {
+            padding: 10px 25px;
+            border: 2px solid #FF7900;
+            border-radius: 25px;
+            color: #FF7900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .FilterButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FF7900;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .FilterButton:hover {
+            color: white;
+        }
+
+        .FilterButton:hover::before {
+            transform: translateX(0);
+        }
+
+        .FilterButton.Active {
+            background: #FF7900;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="TestimonialsHero">
+        <div class="QuotePattern">
+            <div class="FloatingQuote Quote1">"</div>
+            <div class="FloatingQuote Quote2">"</div>
+            <div class="FloatingQuote Quote3">"</div>
+            <div class="FloatingQuote Quote4">"</div>
+        </div>
+        <div class="HeroContent">
+            <h1>Our Stories</h1>
+            <p>Discover what our community has to say about their SBCSMI experience.</p>
+        </div>
+    </div>
+
+    <div class="TestimonialsContainer">
+        <div class="FilterButtons">
+            <div class="FilterButton Active">All Stories</div>
+            <div class="FilterButton">Students</div>
+            <div class="FilterButton">Parents</div>
+            <div class="FilterButton">Alumni</div>
+            <div class="FilterButton">Faculty</div>
+        </div>
+
+        <div class="TestimonialCard">
+            <div class="QuoteIcon">"</div>
+            <div class="TestimonialContent">
+                <p class="TestimonialText">SBCSMI has been transformative for my daughter's education. The dedicated teachers and innovative curriculum have helped her discover her passion for science and technology. The supportive community here is truly exceptional.</p>
+                <div class="TestimonialAuthor">
+                    <div class="AuthorImage">
+                        <img src="parent1.jpg" alt="Sarah Johnson">
+                    </div>
+                    <div class="AuthorInfo">
+                        <h3 class="AuthorName">Sarah Johnson</h3>
+                        <p class="AuthorRole">Parent of Grade 8 Student</p>
+                        <div class="TestimonialRating">
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                        </div>
+                        <div class="TestimonialTags">
+                            <span class="Tag">Academic Excellence</span>
+                            <span class="Tag">STEM Focus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="TestimonialCard">
+            <div class="QuoteIcon">"</div>
+            <div class="TestimonialContent">
+                <p class="TestimonialText">As an alumnus, I can confidently say that my years at SBCSMI prepared me well for university and beyond. The critical thinking skills and values I learned here continue to guide me in my professional life.</p>
+                <div class="TestimonialAuthor">
+                    <div class="AuthorImage">
+                        <img src="alumni1.jpg" alt="Michael Chen">
+                    </div>
+                    <div class="AuthorInfo">
+                        <h3 class="AuthorName">Michael Chen</h3>
+                        <p class="AuthorRole">Class of 2018, Software Engineer</p>
+                        <div class="TestimonialRating">
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                        </div>
+                        <div class="TestimonialTags">
+                            <span class="Tag">Career Success</span>
+                            <span class="Tag">Leadership</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="TestimonialCard">
+            <div class="QuoteIcon">"</div>
+            <div class="TestimonialContent">
+                <p class="TestimonialText">The diverse extracurricular activities and supportive teachers at SBCSMI have helped me grow not just academically, but as a well-rounded individual. I've discovered new interests and made lifelong friends here.</p>
+                <div class="TestimonialAuthor">
+                    <div class="AuthorImage">
+                        <img src="student1.jpg" alt="Emily Rodriguez">
+                    </div>
+                    <div class="AuthorInfo">
+                        <h3 class="AuthorName">Emily Rodriguez</h3>
+                        <p class="AuthorRole">Current Grade 11 Student</p>
+                        <div class="TestimonialRating">
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                            <i class="fas fa-star Star"></i>
+                        </div>
+                        <div class="TestimonialTags">
+                            <span class="Tag">Student Life</span>
+                            <span class="Tag">Arts & Culture</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

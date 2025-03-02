@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Southern Bethany - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .VisitHero {
+            height: 70vh;
+            background: linear-gradient(135deg, rgba(255, 121, 0, 0.9), rgba(255, 165, 0, 0.9)),
+                        url('campus.jpg') center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .ParallaxBg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.3)"/></svg>');
+            animation: parallaxMove 15s linear infinite;
+        }
+
+        @keyframes parallaxMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-20px, -20px); }
+        }
+
+        .HeroContent {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .HeroContent h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .HeroContent p {
+            font-size: 1.6rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .TourOptions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .TourCard {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .TourImage {
+            height: 200px;
+            background: #FF7900;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .TourImage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 121, 0, 0.8), rgba(255, 165, 0, 0.8));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .TourCard:hover .TourImage::before {
+            opacity: 1;
+        }
+
+        .TourContent {
+            padding: 30px;
+        }
+
+        .TourCard:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 121, 0, 0.15);
+        }
+
+        .TourCard h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .TourCard h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #FF7900;
+            transition: width 0.4s ease;
+        }
+
+        .TourCard:hover h3::after {
+            width: 100%;
+        }
+
+        .TourCard p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .BookTourButton {
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #FF7900, #FFA500);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .BookTourButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .BookTourButton:hover::before {
+            left: 100%;
+        }
+
+        .BookTourButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 121, 0, 0.2);
+        }
+
+        .BookTourButton i {
+            margin-right: 8px;
+        }
+
+        .MapSection {
+            padding: 60px 20px;
+            background: #f8f9fa;
+        }
+
+        .MapContainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .MapInfo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .DirectionsCard {
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .DirectionsCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .DirectionsCard h4 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .DirectionsCard h4 i {
+            color: #FF7900;
+            margin-right: 10px;
+        }
+
+        .DirectionsCard p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .FloatingIcon {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.2);
+            animation: float 6s ease-in-out infinite;
+            font-size: 2rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, -20px) rotate(10deg); }
+        }
+
+        .Icon1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .Icon2 { top: 20%; right: 10%; animation-delay: 1s; }
+        .Icon3 { bottom: 15%; left: 15%; animation-delay: 2s; }
+        .Icon4 { bottom: 10%; right: 5%; animation-delay: 3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="VisitHero">
+        <div class="ParallaxBg"></div>
+        <i class="FloatingIcon Icon1 fas fa-graduation-cap"></i>
+        <i class="FloatingIcon Icon2 fas fa-book"></i>
+        <i class="FloatingIcon Icon3 fas fa-microscope"></i>
+        <i class="FloatingIcon Icon4 fas fa-music"></i>
+        <div class="HeroContent">
+            <h1>Visit Our Campus</h1>
+            <p>Experience the vibrant atmosphere and world-class facilities of Southern Bethany</p>
+        </div>
+    </div>
+
+    <div class="TourOptions">
+        <div class="TourCard">
+            <div class="TourImage"></div>
+            <div class="TourContent">
+                <h3>Guided Campus Tour</h3>
+                <p>Join our student ambassadors for a comprehensive tour of our campus facilities, including classrooms, laboratories, and recreational areas.</p>
+                <a href="#" class="BookTourButton">
+                    <i class="fas fa-walking"></i>
+                    Book Campus Tour
+                </a>
+            </div>
+        </div>
+
+        <div class="TourCard">
+            <div class="TourImage"></div>
+            <div class="TourContent">
+                <h3>Virtual Tour</h3>
+                <p>Can't visit in person? Take a virtual tour of our campus from the comfort of your home and explore our facilities online.</p>
+                <a href="#" class="BookTourButton">
+                    <i class="fas fa-vr-cardboard"></i>
+                    Start Virtual Tour
+                </a>
+            </div>
+        </div>
+
+        <div class="TourCard">
+            <div class="TourImage"></div>
+            <div class="TourContent">
+                <h3>Open House Events</h3>
+                <p>Attend our upcoming open house events to meet faculty, current students, and learn more about our programs.</p>
+                <a href="#" class="BookTourButton">
+                    <i class="fas fa-calendar-alt"></i>
+                    View Schedule
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="MapSection">
+        <div class="MapContainer">
+            <h2>Getting Here</h2>
+            <div class="MapInfo">
+                <div class="DirectionsCard">
+                    <h4><i class="fas fa-car"></i>By Car</h4>
+                    <p>Located at Upper Tulay, Minglanilla, Cebu. Free parking available on campus.</p>
+                </div>
+                <div class="DirectionsCard">
+                    <h4><i class="fas fa-bus"></i>Public Transport</h4>
+                    <p>Regular bus and jeepney services available. The campus is a 5-minute walk from the main terminal.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

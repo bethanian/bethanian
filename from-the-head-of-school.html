@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From the Head of School - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .MessageContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .FloatingElements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .FloatingCircle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            animation: floatAnimation 20s infinite ease-in-out;
+            filter: blur(1px);
+            mix-blend-mode: overlay;
+        }
+
+        .FloatingCircle::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .FloatingCircle::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .FloatingCircle:hover {
+            animation-play-state: paused;
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1) translateZ(50px) rotateX(15deg);
+            box-shadow: 
+                0 10px 30px rgba(255, 121, 0, 0.3),
+                0 0 50px rgba(255, 165, 0, 0.2);
+        }
+
+        .FloatingCircle:hover::before {
+            opacity: 1;
+            transform: scale(1.2) rotate(45deg);
+        }
+
+        .FloatingCircle:hover::after {
+            opacity: 1;
+        }
+
+        .Circle1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 121, 0, 0.1));
+        }
+
+        .Circle2 {
+            width: 300px;
+            height: 300px;
+            top: 30%;
+            right: -50px;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 165, 0, 0.1));
+            animation-delay: -7s;
+        }
+
+        .Circle3 {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 20%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), rgba(255, 121, 0, 0.1));
+            animation-delay: -14s;
+        }
+
+        @keyframes floatAnimation {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(50px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(0, 100px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-50px, 50px) rotate(270deg);
+            }
+        }
+
+        .InteractiveNav {
+            position: fixed;
+            left: 40px;
+            bottom: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .NavItem {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .NavItem i {
+            font-size: 1.3rem;
+            color: #FF7900;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .NavItem::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .NavItem:hover {
+            transform: translateY(-5px);
+            border-radius: 20px;
+        }
+
+        .NavItem:hover i {
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        .NavItem:hover::before {
+            opacity: 1;
+        }
+
+        .Modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .Modal.Active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ModalContent {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            transform: translateY(50px) scale(0.9);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Modal.Active .ModalContent {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .ModalClose {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 121, 0, 0.1);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ModalClose:hover {
+            background: #FF7900;
+            transform: rotate(90deg);
+        }
+
+        .ModalClose i {
+            color: #FF7900;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .ModalClose:hover i {
+            color: white;
+        }
+
+        .ModalTitle {
+            font-size: 2rem;
+            color: #FF7900;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #FF7900;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ModalTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            transform: translateX(-100%);
+            animation: titleLine 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes titleLine {
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .ModalBody {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: modalBodyFade 0.5s ease-out 0.3s forwards;
+        }
+
+        @keyframes modalBodyFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .WavyLine {
+            position: absolute;
+            width: 100%;
+            height: 120px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='rgba(255,255,255,0.1)' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 1440px 120px;
+            animation: waveAnimation 15s linear infinite;
+            opacity: 0.15;
+        }
+
+        .Wave1 { bottom: 0; animation-duration: 15s; }
+        .Wave2 { bottom: 40px; animation-duration: 20s; animation-delay: -5s; }
+        .Wave3 { bottom: 80px; animation-duration: 25s; animation-delay: -10s; }
+
+        @keyframes waveAnimation {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+
+        .MessageContent {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .HeadPhoto {
+            position: sticky;
+            top: 100px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .HeadPhoto:hover {
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 
+                0 30px 60px rgba(255, 121, 0, 0.2),
+                0 0 120px rgba(255, 165, 0, 0.1);
+        }
+
+        .HeadPhoto img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .HeadPhoto:hover img {
+            transform: scale(1.05);
+        }
+
+        .MessageText {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            color: #333;
+            transition: all 0.4s ease;
+        }
+
+        .MessageText:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .MessageText h1 {
+            font-size: 2.5rem;
+            color: #FF7900;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .MessageText h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            animation: lineGrow 1s ease-out forwards;
+        }
+
+        @keyframes lineGrow {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        .MessageText p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .MessageText p:nth-child(2) { animation-delay: 0.2s; }
+        .MessageText p:nth-child(3) { animation-delay: 0.4s; }
+        .MessageText p:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .Signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .SignatureName {
+            font-size: 1.4rem;
+            color: #FF7900;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .Signature:hover .SignatureName {
+            transform: translateY(-3px);
+            text-shadow: 2px 2px 4px rgba(255, 121, 0, 0.2);
+        }
+
+        .SignatureTitle {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .MessageContent {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .HeadPhoto {
+                position: relative;
+                top: 0;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .MessageText h1 {
+                font-size: 2rem;
+            }
+
+            .MessageText p {
+                font-size: 1rem;
+            }
+
+            .InteractiveNav {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="MessageContainer">
+        <div class="FloatingElements">
+            <div class="FloatingCircle Circle1"></div>
+            <div class="FloatingCircle Circle2"></div>
+            <div class="FloatingCircle Circle3"></div>
+            <div class="WavyLine Wave1"></div>
+            <div class="WavyLine Wave2"></div>
+            <div class="WavyLine Wave3"></div>
+        </div>
+
+        <div class="InteractiveNav">
+            <div class="NavItem" onclick="openModal('academics')">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="NavItem" onclick="openModal('library')">
+                <i class="fas fa-book-reader"></i>
+            </div>
+            <div class="NavItem" onclick="openModal('community')">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="NavItem" onclick="openModal('achievements')">
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+
+        <div class="MessageContent">
+            <div class="HeadPhoto">
+                <img src="placeholder.jpg" alt="Head of School">
+            </div>
+            <div class="MessageText">
+                <h1>From the Head of School</h1>
+                <p>Welcome to Southern Bethany Christian School of Minglanilla, Inc. (SBCSMI), where we are dedicated to nurturing young minds and shaping future leaders who will make meaningful contributions to society.</p>
+                
+                <p>At SBCSMI, we believe in the power of holistic education. Our approach combines rigorous academics with character development, ensuring that our students are prepared not just for college, but for life.</p>
+                
+                <p>We foster an environment where curiosity thrives, creativity flourishes, and every student is empowered to discover their unique potential. Our dedicated faculty and staff work tirelessly to create engaging learning experiences that challenge and inspire.</p>
+                
+                <div class="Signature">
+                    <div class="SignatureName">Engr. Chinglyn N. Gequilapay</div>
+                    <div class="SignatureTitle">Head of School</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="Modal" id="academicsModal">
+        <div class="ModalContent">
+            <button class="ModalClose" onclick="closeModal('academics')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="ModalTitle">Academic Excellence</h2>
+            <div class="ModalBody">
+                <p>Our academic program is designed to challenge and inspire students to reach their full potential. We offer:</p>
+                <ul>
+                    <li>Advanced Placement courses</li>
+                    <li>STEM-focused curriculum</li>
+                    <li>Small class sizes for personalized attention</li>
+                    <li>Experienced and dedicated faculty</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="Modal" id="libraryModal">
+        <div class="ModalContent">
+            <button class="ModalClose" onclick="closeModal('library')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="ModalTitle">Learning Resources</h2>
+            <div class="ModalBody">
+                <p>Our library and learning resources provide students with:</p>
+                <ul>
+                    <li>Extensive digital and print collections</li>
+                    <li>Modern research facilities</li>
+                    <li>Online learning platforms</li>
+                    <li>Study spaces for collaborative work</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="Modal" id="communityModal">
+        <div class="ModalContent">
+            <button class="ModalClose" onclick="closeModal('community')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="ModalTitle">Our Community</h2>
+            <div class="ModalBody">
+                <p>SBCSMI fosters a strong sense of community through:</p>
+                <ul>
+                    <li>Student organizations and clubs</li>
+                    <li>Parent-teacher partnerships</li>
+                    <li>Community service programs</li>
+                    <li>Cultural celebrations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="Modal" id="achievementsModal">
+        <div class="ModalContent">
+            <button class="ModalClose" onclick="closeModal('achievements')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="ModalTitle">School Achievements</h2>
+            <div class="ModalBody">
+                <p>We take pride in our accomplishments:</p>
+                <ul>
+                    <li>Academic competition winners</li>
+                    <li>Sports championships</li>
+                    <li>Arts and cultural awards</li>
+                    <li>Community recognition</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(type) {
+            const modal = document.getElementById(type + 'Modal');
+            modal.classList.add('Active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(type) {
+            const modal = document.getElementById(type + 'Modal');
+            modal.classList.remove('Active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside content
+        document.querySelectorAll('.Modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('Active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.Modal').forEach(modal => {
+                    modal.classList.remove('Active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

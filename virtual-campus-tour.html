@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Campus Tour - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <script src="Scripts.js" defer></script>
+    <style>
+        .TourContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundPattern {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 5px, transparent 5px),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 5px, transparent 5px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            animation: patternFloat 30s linear infinite;
+        }
+
+        @keyframes patternFloat {
+            from { background-position: 0 0; }
+            to { background-position: 40px 40px; }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: titleFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @keyframes titleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .TourNavigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .TourButton {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .TourButton::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: white;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .TourButton:hover::before,
+        .TourButton.Active::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .TourButton span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s ease;
+        }
+
+        .TourButton:hover span,
+        .TourButton.Active span {
+            color: #FF7900;
+        }
+
+        .TourSection {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: sectionFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes sectionFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .TourSection:nth-child(2) { animation-delay: 0.2s; }
+        .TourSection:nth-child(3) { animation-delay: 0.4s; }
+        .TourSection:nth-child(4) { animation-delay: 0.6s; }
+
+        .TourImage {
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .TourImage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .TourSection:hover .TourImage img {
+            transform: scale(1.05);
+        }
+
+        .TourImage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .TourSection:hover .TourImage::before {
+            opacity: 1;
+        }
+
+        .TourContent {
+            padding: 40px;
+            position: relative;
+            background: white;
+            transform: translateZ(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .TourSection:hover .TourContent {
+            transform: translateZ(30px);
+        }
+
+        .TourTitle {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .TourTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .TourSection:hover .TourTitle::after {
+            transform: scaleX(1);
+        }
+
+        .TourDescription {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .TourFeatures {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .TourFeature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .TourSection:hover .TourFeature {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .TourSection:hover .TourFeature:nth-child(1) { transition-delay: 0.1s; }
+        .TourSection:hover .TourFeature:nth-child(2) { transition-delay: 0.2s; }
+        .TourSection:hover .TourFeature:nth-child(3) { transition-delay: 0.3s; }
+        .TourSection:hover .TourFeature:nth-child(4) { transition-delay: 0.4s; }
+
+        .FeatureIcon {
+            width: 40px;
+            height: 40px;
+            background: #FF7900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transform: rotate(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .TourFeature:hover .FeatureIcon {
+            transform: rotate(360deg);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.3);
+        }
+
+        .FeatureText {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .TourButton360 {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #FF7900, #FFA500);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .TourButton360:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 121, 0, 0.3);
+        }
+
+        .TourButton360 i {
+            animation: rotate360 4s linear infinite;
+        }
+
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .HotspotContainer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .Hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 121, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            pointer-events: auto;
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: pulse 2s infinite;
+        }
+
+        .Hotspot:hover {
+            transform: scale(1.2);
+            animation: none;
+            background: #FF7900;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 121, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 121, 0, 0); }
+            100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255, 121, 0, 0); }
+        }
+
+        .Hotspot:nth-child(1) { top: 30%; left: 20%; }
+        .Hotspot:nth-child(2) { top: 50%; left: 60%; }
+        .Hotspot:nth-child(3) { top: 70%; left: 40%; }
+
+        .HotspotTooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: #333;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .Hotspot:hover .HotspotTooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .TourPanorama {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .PanoramaImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .PanoramaControls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+
+        .PanoramaControl {
+            width: 40px;
+            height: 40px;
+            background: #FF7900;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .PanoramaControl:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .TourImage {
+                height: 300px;
+            }
+
+            .TourFeatures {
+                grid-template-columns: 1fr;
+            }
+
+            .TourPanorama {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="TourContainer">
+        <div class="BackgroundPattern"></div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>Virtual Campus Tour</h1>
+                <p>Explore our beautiful campus from anywhere in the world. Click on hotspots to learn more about our facilities.</p>
+            </div>
+
+            <div class="TourNavigation">
+                <button class="TourButton Active"><span>Athletic Facilities</span></button>
+                <button class="TourButton"><span>Academic Buildings</span></button>
+                <button class="TourButton"><span>Student Life</span></button>
+                <button class="TourButton"><span>Outdoor Spaces</span></button>
+            </div>
+
+            <div class="TourSection">
+                <div class="TourImage">
+                    <img src="placeholder-gymnasium.jpg" alt="Main Gymnasium">
+                    <div class="HotspotContainer">
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Basketball Courts</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Spectator Seating</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Training Equipment</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="TourContent">
+                    <h2 class="TourTitle">Main Gymnasium</h2>
+                    <p class="TourDescription">Our state-of-the-art gymnasium is the heart of our athletic program. With modern facilities and equipment, it provides the perfect environment for our student-athletes to train and compete.</p>
+                    
+                    <div class="TourFeatures">
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-basketball-ball"></i>
+                            </div>
+                            <span class="FeatureText">Regulation Courts</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <span class="FeatureText">Fitness Center</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="FeatureText">Seating for 1,200</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <span class="FeatureText">Championship Banners</span>
+                        </div>
+                    </div>
+                    
+                    <button class="TourButton360">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>View 360° Tour</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="TourSection">
+                <div class="TourImage">
+                    <img src="placeholder-pool.jpg" alt="Aquatic Center">
+                    <div class="HotspotContainer">
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Olympic-sized Pool</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Diving Platforms</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Spectator Area</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="TourContent">
+                    <h2 class="TourTitle">Aquatic Center</h2>
+                    <p class="TourDescription">Our Aquatic Center features an Olympic-sized swimming pool with state-of-the-art filtration systems and diving platforms. It's home to our championship swimming and diving teams.</p>
+                    
+                    <div class="TourFeatures">
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-swimming-pool"></i>
+                            </div>
+                            <span class="FeatureText">Olympic-sized Pool</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <span class="FeatureText">Diving Platforms</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-temperature-low"></i>
+                            </div>
+                            <span class="FeatureText">Climate Controlled</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-shower"></i>
+                            </div>
+                            <span class="FeatureText">Modern Locker Rooms</span>
+                        </div>
+                    </div>
+                    
+                    <button class="TourButton360">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>View 360° Tour</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="TourSection">
+                <div class="TourImage">
+                    <img src="placeholder-field.jpg" alt="Athletic Field">
+                    <div class="HotspotContainer">
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Track Lanes</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Field Events Area</div>
+                        </div>
+                        <div class="Hotspot">
+                            <i class="fas fa-info"></i>
+                            <div class="HotspotTooltip">Bleachers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="TourContent">
+                    <h2 class="TourTitle">Athletic Field</h2>
+                    <p class="TourDescription">Our outdoor athletic field includes a 400-meter track, field event areas, and multipurpose playing fields. It's designed to accommodate various sports and athletic activities.</p>
+                    
+                    <div class="TourFeatures">
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <span class="FeatureText">400m Track</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-futbol"></i>
+                            </div>
+                            <span class="FeatureText">Multipurpose Fields</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <span class="FeatureText">Stadium Lighting</span>
+                        </div>
+                        <div class="TourFeature">
+                            <div class="FeatureIcon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <span class="FeatureText">All-Weather Surface</span>
+                        </div>
+                    </div>
+                    
+                    <button class="TourButton360">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>View 360° Tour</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="TourPanorama">
+                <img src="placeholder-panorama.jpg" alt="Campus Panorama" class="PanoramaImage">
+                <div class="PanoramaControls">
+                    <button class="PanoramaControl"><i class="fas fa-arrow-left"></i></button>
+                    <button class="PanoramaControl"><i class="fas fa-search-plus"></i></button>
+                    <button class="PanoramaControl"><i class="fas fa-search-minus"></i></button>
+                    <button class="PanoramaControl"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

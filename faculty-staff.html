@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty & Staff - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .FacultyHero {
+            height: 70vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .HexagonPattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .Hexagon {
+            position: absolute;
+            width: 100px;
+            height: 115px;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hexFloat 6s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes hexFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.2; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.1; }
+            80% { opacity: 0.2; }
+        }
+
+        .Hex1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .Hex2 { top: 20%; right: 20%; animation-delay: 1s; }
+        .Hex3 { bottom: 30%; left: 30%; animation-delay: 2s; }
+        .Hex4 { bottom: 20%; right: 15%; animation-delay: 3s; }
+
+        .HeroContent {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .HeroContent h1 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .HeroContent p {
+            font-size: 1.6rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .DepartmentTabs {
+            max-width: 1200px;
+            margin: 60px auto 40px;
+            padding: 3px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .DepartmentTab {
+            padding: 13px 25px;
+            border: 2px solid #FF7900;
+            border-radius: 25px;
+            background: white;
+            color: #666;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .DepartmentTab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FF7900;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .DepartmentTab span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .DepartmentTab:hover::before,
+        .DepartmentTab.Active::before {
+            opacity: 1;
+        }
+
+        .DepartmentTab:hover span,
+        .DepartmentTab.Active span {
+            color: white;
+        }
+
+        .FacultyGrid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            perspective: 1000px;
+        }
+
+        .FacultyCard {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform-style: preserve-3d;
+            transform: translateZ(0) rotateX(0);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .FacultyCard:hover {
+            transform: translateZ(20px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 121, 0, 0.2);
+        }
+
+        .FacultyImage {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .FacultyImage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            filter: grayscale(100%);
+        }
+
+        .FacultyCard:hover .FacultyImage img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        .FacultyOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 121, 0, 0.8),
+                rgba(255, 165, 0, 0.6)
+            );
+            opacity: 0;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .FacultyCard:hover .FacultyOverlay {
+            opacity: 1;
+        }
+
+        .FacultyInfo {
+            padding: 20px;
+            position: relative;
+            background: white;
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .FacultyCard:hover .FacultyInfo {
+            transform: translateY(-10px);
+        }
+
+        .FacultyInfo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            transform: scaleX(0);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: left;
+        }
+
+        .FacultyCard:hover .FacultyInfo::after {
+            transform: scaleX(1);
+        }
+
+        .FacultyInfo h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .FacultyInfo h4 {
+            font-size: 1rem;
+            color: #FF7900;
+            margin-bottom: 12px;
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .FacultyCard:hover .FacultyInfo h3,
+        .FacultyCard:hover .FacultyInfo h4 {
+            transform: translateY(-5px);
+        }
+
+        .FacultyInfo p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .FacultyCard:hover .FacultyInfo p {
+            opacity: 1;
+        }
+
+        .FacultySocial {
+            display: flex;
+            gap: 12px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .FacultyCard:hover .FacultySocial {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .SocialIcon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 121, 0, 0.1);
+            color: #FF7900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            transform: translateY(0) rotate(0);
+        }
+
+        .FacultyCard:hover .SocialIcon {
+            animation: iconPop 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes iconPop {
+            0% { transform: scale(1) rotate(0); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .SocialIcon:hover {
+            background: #FF7900;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .HeroContent h1 {
+                font-size: 3.5rem;
+            }
+
+            .HeroContent p {
+                font-size: 1.4rem;
+            }
+
+            .DepartmentTabs {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .DepartmentTab {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .FacultyGrid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .FacultyImage {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="FacultyHero">
+        <div class="HexagonPattern">
+            <div class="Hexagon Hex1"></div>
+            <div class="Hexagon Hex2"></div>
+            <div class="Hexagon Hex3"></div>
+            <div class="Hexagon Hex4"></div>
+        </div>
+        <div class="HeroContent">
+            <h1>Our Faculty & Staff</h1>
+            <p>Meet our dedicated educators and support staff who make excellence in education possible.</p>
+        </div>
+    </div>
+
+    <div class="DepartmentTabs">
+        <button class="DepartmentTab Active"><span>All</span></button>
+        <button class="DepartmentTab"><span>Administration</span></button>
+        <button class="DepartmentTab"><span>Elementary</span></button>
+        <button class="DepartmentTab"><span>High School</span></button>
+        <button class="DepartmentTab"><span>Support Staff</span></button>
+    </div>
+
+    <div class="FacultyGrid">
+        <!-- Sample Faculty Cards -->
+        <div class="FacultyCard" style="animation-delay: 0.1s;">
+            <div class="FacultyImage">
+                <img src="placeholder.jpg" alt="Faculty Member">
+                <div class="FacultyOverlay"></div>
+            </div>
+            <div class="FacultyInfo">
+                <h3>Engr. Chinglyn N. Gequilapay</h3>
+                <h4>Principal</h4>
+                <p>20+ years of experience in education leadership and curriculum development.</p>
+                <div class="FacultySocial">
+                    <a href="#" class="SocialIcon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="FacultyCard" style="animation-delay: 0.1s;">
+            <div class="FacultyImage">
+                <img src="placeholder.jpg" alt="Faculty Member">
+                <div class="FacultyOverlay"></div>
+            </div>
+            <div class="FacultyInfo">
+                <h3>Mr. Joel Gequilapay</h3>
+                <h4>Pastor</h4>
+                <p>Over 20 years of experience in pastoral ministry and community outreach.</p>
+                <div class="FacultySocial">
+                    <a href="#" class="SocialIcon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="FacultyCard" style="animation-delay: 0.1s;">
+            <div class="FacultyImage">
+                <img src="placeholder.jpg" alt="Faculty Member">
+                <div class="FacultyOverlay"></div>
+            </div>
+            <div class="FacultyInfo">
+                <h3>Maam. Soccoro Tambuli</h3>
+                <h4>Professor</h4>
+                <p>Close to 20 years of experience in teaching and curriculum development.</p>
+                <div class="FacultySocial">
+                    <a href="#" class="SocialIcon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="SocialIcon"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Add more faculty cards as needed -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

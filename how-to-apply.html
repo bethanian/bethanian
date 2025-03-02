@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Apply - SBCSMI Admissions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <script src="Scripts.js" defer></script>
+    <style>
+        .PageContent {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .ApplicationSection {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .StepGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .StepCard {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+            padding: 20px;
+        }
+
+        .StepCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .StepNumber {
+            font-size: 48px;
+            color: #FF7900;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .Timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+
+        .Timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, transparent, #FF7900, transparent);
+            transform: scaleY(0);
+            animation: lineGrow 1s ease forwards;
+            transform-origin: top;
+        }
+
+        @keyframes lineGrow {
+            to { transform: scaleY(1); }
+        }
+
+        .TimelineItem {
+            position: relative;
+            padding: 35px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border-left: 4px solid rgba(255, 121, 0, 0.3);
+            transform: translateX(20px);
+            opacity: 0;
+            animation: slideIn 0.5s ease forwards;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .TimelineItem::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 50%;
+            width: 24px;
+            height: 24px;
+            background: #FF7900;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            border: 4px solid white;
+            box-shadow: 0 2px 8px rgba(255, 121, 0, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .TimelineDate {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #FF7900;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            transition: all 0.4s ease;
+        }
+
+        .TimelineItem h3 {
+            font-size: 1.6rem;
+            color: #333;
+            margin: 0 0 15px 0;
+            transition: all 0.4s ease;
+        }
+
+        .TimelineItem p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .TimelineItem:hover {
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(255, 121, 0, 0.15);
+            border-left-color: #FF7900;
+            background: linear-gradient(135deg, white, rgba(255, 121, 0, 0.05));
+        }
+
+        .TimelineItem:hover::before {
+            transform: translateY(-50%) scale(1.3);
+            box-shadow: 0 4px 15px rgba(255, 121, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .TimelineItem:hover .TimelineDate {
+            transform: translateX(-10px);
+            opacity: 1;
+            text-shadow: 0 2px 10px rgba(255, 121, 0, 0.2);
+        }
+
+        .TimelineItem:hover h3 {
+            color: #FF7900;
+            transform: translateX(8px);
+        }
+
+        .TimelineItem:hover p {
+            transform: translateX(5px);
+        }
+
+        @keyframes pulse {
+            0% { transform: translateY(-50%) scale(1.3); }
+            50% { transform: translateY(-50%) scale(1.5); }
+            100% { transform: translateY(-50%) scale(1.3); }
+        }
+
+        .TimelineItem:nth-child(1) { animation-delay: 0.2s; }
+        .TimelineItem:nth-child(2) { animation-delay: 0.4s; }
+        .TimelineItem:nth-child(3) { animation-delay: 0.6s; }
+
+        .ApplicationSection h2 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .RequirementsList {
+            list-style: none;
+            padding: 0;
+        }
+
+        .RequirementsList li {
+            padding: 10px;
+            margin: 10px 0;
+            background: #fff5eb;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .RequirementsList li i {
+            color: #FF7900;
+            margin-right: 10px;
+        }
+
+        .ApplyButton {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #FF7900;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .ApplyButton:hover {
+            background: #e66d00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="PageContent">
+        <a href="home.html#admissions" class="BackToMain"><i class="fas fa-arrow-left"></i> Back to Admissions</a>
+        <div class="ApplicationSection">
+            <h1><i class="fas fa-file-alt"></i> How to Apply</h1>
+            <p>Join our vibrant community at SBCSMI. Follow these simple steps to begin your journey with us.</p>
+            
+            <div class="StepGrid">
+                <div class="StepCard">
+                    <div class="StepNumber">1</div>
+                    <h3>Submit Application</h3>
+                    <p>Complete our online application form with all required information and documentation.</p>
+                    <a href="#" class="SharedButton">Start Application</a>
+                </div>
+
+                <div class="StepCard">
+                    <div class="StepNumber">2</div>
+                    <h3>Entrance Exam</h3>
+                    <p>Schedule and take the entrance examination at our campus.</p>
+                    <a href="#" class="SharedButton">Schedule Exam</a>
+                </div>
+
+                <div class="StepCard">
+                    <div class="StepNumber">3</div>
+                    <h3>Interview</h3>
+                    <p>Participate in a personal interview with our admissions team.</p>
+                    <a href="#" class="SharedButton">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ApplicationSection">
+            <h2>Application Timeline</h2>
+            <div class="Timeline">
+                <div class="TimelineItem">
+                    <div class="TimelineDate">November 1, 2024</div>
+                    <h3>Early Application Opens</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+
+                <div class="TimelineItem">
+                    <div class="TimelineDate">January 15, 2025</div>
+                    <h3>Regular Application Deadline</h3>
+                    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+
+                <div class="TimelineItem">
+                    <div class="TimelineDate">March 1, 2025</div>
+                    <h3>Admission Decisions</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ApplicationSection">
+            <h2>Required Documents</h2>
+            <ul class="RequirementsList">
+                <li><i class="fas fa-file-alt"></i> Completed Application Form</li>
+                <li><i class="fas fa-graduation-cap"></i> Previous School Records</li>
+                <li><i class="fas fa-id-card"></i> Birth Certificate</li>
+                <li><i class="fas fa-image"></i> Recent Photograph</li>
+                <li><i class="fas fa-file-medical"></i> Medical Records</li>
+                <li><i class="fas fa-certificate"></i> Certificate of Good Moral Character</li>
+            </ul>
+        </div>
+
+        <div class="ApplicationSection" style="text-align: center;">
+            <h2>Ready to Apply?</h2>
+            <p>Take the first step towards your future at SBCSMI.</p>
+            <a href="#" class="ApplyButton">Begin Application Process</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

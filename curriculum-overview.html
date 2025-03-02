@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Overview - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .CurriculumContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundGrid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridFloat 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes gridFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50px, -50px) rotate(1deg);
+            }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .CurriculumGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .SubjectCard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .SubjectCard:hover {
+            transform: translateZ(50px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2),
+                0 0 100px rgba(255, 165, 0, 0.1);
+        }
+
+        .SubjectIcon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 121, 0, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .SubjectIcon i {
+            font-size: 1.8rem;
+            color: #FF7900;
+            transition: all 0.6s ease;
+        }
+
+        .SubjectCard:hover .SubjectIcon {
+            transform: rotateY(180deg);
+            background: #FF7900;
+        }
+
+        .SubjectCard:hover .SubjectIcon i {
+            transform: rotateY(-180deg);
+            color: white;
+        }
+
+        .SubjectTitle {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .SubjectTitle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 3px;
+            background: #FF7900;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .SubjectCard:hover .SubjectTitle::after {
+            width: 100%;
+        }
+
+        .SubjectDescription {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .SubjectFeatures {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .FeatureItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .SubjectCard:hover .FeatureItem {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .SubjectCard:hover .FeatureItem:nth-child(1) { transition-delay: 0.1s; }
+        .SubjectCard:hover .FeatureItem:nth-child(2) { transition-delay: 0.2s; }
+        .SubjectCard:hover .FeatureItem:nth-child(3) { transition-delay: 0.3s; }
+
+        .FeatureItem i {
+            color: #FF7900;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .PageTitle p {
+                font-size: 1.1rem;
+            }
+
+            .CurriculumGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="CurriculumContainer">
+        <div class="BackgroundGrid"></div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>Curriculum Overview</h1>
+                <p>Our comprehensive curriculum is designed to nurture academic excellence, spiritual growth, and character development through innovative teaching methods and Christian values.</p>
+            </div>
+
+            <div class="CurriculumGrid">
+                <div class="SubjectCard">
+                    <div class="SubjectIcon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h2 class="SubjectTitle">Language Arts</h2>
+                    <p class="SubjectDescription">Develop strong communication skills through reading, writing, speaking, and listening.</p>
+                    <ul class="SubjectFeatures">
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Literature Analysis</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Creative Writing</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Public Speaking</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="SubjectCard">
+                    <div class="SubjectIcon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h2 class="SubjectTitle">Mathematics</h2>
+                    <p class="SubjectDescription">Build problem-solving skills through comprehensive mathematical concepts.</p>
+                    <ul class="SubjectFeatures">
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Advanced Algebra</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Geometry</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Statistics</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="SubjectCard">
+                    <div class="SubjectIcon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h2 class="SubjectTitle">Science</h2>
+                    <p class="SubjectDescription">Explore the natural world through hands-on experiments and research.</p>
+                    <ul class="SubjectFeatures">
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Biology</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Chemistry</span>
+                        </li>
+                        <li class="FeatureItem">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Physics</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

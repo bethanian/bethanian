@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From the Athletics Director - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .DirectorContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundPattern {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.1) 49%, transparent 51%) 0 0 / 30px 30px,
+                linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.1) 49%, transparent 51%) 0 0 / 30px 30px;
+            opacity: 0.3;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            from { background-position: 0 0, 0 0; }
+            to { background-position: 60px 60px, 60px 60px; }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .DirectorProfile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: profileFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes profileFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ProfileImage {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .ProfileImage img {
+            width: 100%;
+            height: auto;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .ProfileImage:hover img {
+            transform: scale(1.05) translateZ(20px);
+        }
+
+        .ProfileImage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(255, 121, 0, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .ProfileImage:hover::before {
+            opacity: 1;
+        }
+
+        .DirectorInfo {
+            color: white;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .DirectorName {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .DirectorName::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: white;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .DirectorInfo:hover .DirectorName::after {
+            transform: scaleX(1);
+        }
+
+        .DirectorTitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .Message {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            position: relative;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: messageFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.4s;
+        }
+
+        @keyframes messageFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .MessageContent {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .Message:hover .MessageContent {
+            border-left-color: #FF7900;
+            padding-left: 30px;
+        }
+
+        .Signature {
+            text-align: right;
+            margin-top: 40px;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Message:hover .Signature {
+            transform: translateY(-5px);
+        }
+
+        .SignatureName {
+            font-size: 1.4rem;
+            color: #FF7900;
+            margin-bottom: 5px;
+        }
+
+        .SignatureTitle {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .AthleticsHighlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .HighlightCard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .HighlightCard:nth-child(2) { animation-delay: 0.2s; }
+        .HighlightCard:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .HighlightIcon {
+            font-size: 2.5rem;
+            color: #FF7900;
+            margin-bottom: 20px;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .HighlightCard:hover .HighlightIcon {
+            transform: translateY(-10px) scale(1.1);
+        }
+
+        .HighlightTitle {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .HighlightTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .HighlightCard:hover .HighlightTitle::after {
+            transform: scaleX(1);
+        }
+
+        .HighlightText {
+            color: #666;
+            line-height: 1.6;
+            transition: color 0.4s ease;
+        }
+
+        .HighlightCard:hover .HighlightText {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .DirectorProfile {
+                grid-template-columns: 1fr;
+            }
+
+            .DirectorName {
+                font-size: 2rem;
+            }
+
+            .AthleticsHighlights {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="DirectorContainer">
+        <div class="BackgroundPattern"></div>
+
+        <div class="ContentWrapper">
+            <div class="DirectorProfile">
+                <div class="ProfileImage">
+                    <img src="placeholder-director.jpg" alt="Athletics Director">
+                </div>
+                <div class="DirectorInfo">
+                    <h1 class="DirectorName">John Anderson</h1>
+                    <div class="DirectorTitle">Director of Athletics</div>
+                </div>
+            </div>
+
+            <div class="Message">
+                <p class="MessageContent">
+                    Welcome to SBCSMI Athletics! Our program is built on the foundation of excellence, sportsmanship, and character development. We believe that athletics plays a crucial role in shaping well-rounded individuals, teaching valuable life lessons about teamwork, perseverance, and leadership.
+                </p>
+                <p class="MessageContent">
+                    Our dedicated coaching staff works tirelessly to create an environment where student-athletes can thrive both in their sport and in their academic pursuits. We take pride in our state-of-the-art facilities, comprehensive training programs, and the supportive community that surrounds our teams.
+                </p>
+                <p class="MessageContent">
+                    Whether you're a current student-athlete, a prospective family, or a supporter of our programs, I invite you to explore what makes SBCSMI Athletics special. Together, we're building champions in sport and in life.
+                </p>
+                <div class="Signature">
+                    <div class="SignatureName">John Anderson</div>
+                    <div class="SignatureTitle">Director of Athletics</div>
+                </div>
+            </div>
+
+            <div class="AthleticsHighlights">
+                <div class="HighlightCard">
+                    <i class="fas fa-trophy HighlightIcon"></i>
+                    <h3 class="HighlightTitle">Championship Legacy</h3>
+                    <p class="HighlightText">Multiple regional and state championships across various sports programs.</p>
+                </div>
+
+                <div class="HighlightCard">
+                    <i class="fas fa-graduation-cap HighlightIcon"></i>
+                    <h3 class="HighlightTitle">Academic Excellence</h3>
+                    <p class="HighlightText">Over 90% of our student-athletes maintain honor roll status.</p>
+                </div>
+
+                <div class="HighlightCard">
+                    <i class="fas fa-users HighlightIcon"></i>
+                    <h3 class="HighlightTitle">Community Impact</h3>
+                    <p class="HighlightText">Strong partnerships with local organizations and youth programs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

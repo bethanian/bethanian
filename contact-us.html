@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .ContactHero {
+            height: 70vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ConnectPattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .ConnectLine {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: lineGrow 3s ease-in-out infinite;
+        }
+
+        @keyframes lineGrow {
+            0% { height: 0; opacity: 0; }
+            50% { height: 100px; opacity: 0.2; }
+            100% { height: 0; opacity: 0; }
+        }
+
+        .Line1 { top: 10%; left: 20%; animation-delay: 0s; }
+        .Line2 { top: 30%; right: 30%; animation-delay: 1s; }
+        .Line3 { bottom: 20%; left: 40%; animation-delay: 2s; }
+        .Line4 { bottom: 40%; right: 15%; animation-delay: 3s; }
+
+        .ConnectDot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: dotPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(2); opacity: 0.1; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        .Dot1 { top: 20%; left: 20%; animation-delay: 0.5s; }
+        .Dot2 { top: 40%; right: 30%; animation-delay: 1.5s; }
+        .Dot3 { bottom: 30%; left: 40%; animation-delay: 2.5s; }
+        .Dot4 { bottom: 50%; right: 15%; animation-delay: 3.5s; }
+
+        .HeroContent {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .HeroContent h1 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .HeroContent p {
+            font-size: 1.6rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .ContactContainer {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+        }
+
+        .ContactInfo {
+            padding: 50px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .InfoCard {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 35px;
+            padding: 25px;
+            border-radius: 15px;
+            background: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .InfoCard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 121, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .InfoCard:hover {
+            transform: translateX(10px);
+        }
+
+        .InfoCard:hover::before {
+            opacity: 1;
+        }
+
+        .InfoIcon {
+            min-width: 60px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 121, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FF7900;
+            font-size: 1.6rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .InfoCard:hover .InfoIcon {
+            background: #FF7900;
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        .InfoContent h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.4rem;
+        }
+
+        .InfoContent p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .ContactForm {
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .FormGroup {
+            margin-bottom: 30px;
+            position: relative;
+            width: 100%;
+        }
+
+        .FormInput {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(255, 121, 0, 0.2);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            z-index: 1;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .FormInput:focus {
+            outline: none;
+            border-color: #FF7900;
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.1);
+        }
+
+        .FormLabel {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 0 5px;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .FormInput:focus + .FormLabel,
+        .FormInput:not(:placeholder-shown) + .FormLabel {
+            top: 0;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            color: #FF7900;
+        }
+
+        .FormTextarea {
+            height: 180px;
+            resize: none;
+        }
+
+        .FormTextarea + .FormLabel {
+            top: 20px;
+            transform: none;
+        }
+
+        .FormTextarea:focus + .FormLabel,
+        .FormTextarea:not(:placeholder-shown) + .FormLabel {
+            top: -10px;
+        }
+
+        select.FormInput {
+            padding-right: 35px;
+            cursor: pointer;
+        }
+
+        .SubmitButton {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 40px;
+            background: linear-gradient(45deg, #FF7900, #FFA500);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .SubmitButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #FFA500, #FF7900);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .SubmitButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 121, 0, 0.2);
+        }
+
+        .SubmitButton:hover::before {
+            opacity: 1;
+        }
+
+        .SubmitButton span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .SubmitButton i {
+            margin-left: 15px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .SubmitButton:hover i {
+            transform: translateX(5px);
+        }
+
+        .MapSection {
+            margin-top: 80px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .MapSection iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        .MapOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 121, 0, 0.1);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .MapSection:hover .MapOverlay {
+            opacity: 1;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ContactContainer {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+                gap: 40px;
+                max-width: 500px;
+            }
+
+            .HeroContent h1 {
+                font-size: 3.5rem;
+            }
+
+            .HeroContent p {
+                font-size: 1.4rem;
+            }
+
+            .ContactInfo,
+            .ContactForm {
+                padding: 30px;
+            }
+
+            .FormInput {
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+
+            .FormLabel {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="ContactHero">
+        <div class="ConnectPattern">
+            <div class="ConnectLine Line1"></div>
+            <div class="ConnectLine Line2"></div>
+            <div class="ConnectLine Line3"></div>
+            <div class="ConnectLine Line4"></div>
+            <div class="ConnectDot Dot1"></div>
+            <div class="ConnectDot Dot2"></div>
+            <div class="ConnectDot Dot3"></div>
+            <div class="ConnectDot Dot4"></div>
+        </div>
+        <div class="HeroContent">
+            <h1>Contact Us</h1>
+            <p>Get in touch with us and become part of our educational community.</p>
+        </div>
+    </div>
+
+    <div class="ContactContainer">
+        <div class="ContactInfo">
+            <div class="InfoCard">
+                <div class="InfoIcon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="InfoContent">
+                    <h3>Visit Us</h3>
+                    <p>Upper Tulay, Minglanilla, Cebu</p>
+                </div>
+            </div>
+            <div class="InfoCard">
+                <div class="InfoIcon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="InfoContent">
+                    <h3>Call Us</h3>
+                    <p>(123) 456-7890</p>
+                </div>
+            </div>
+            <div class="InfoCard">
+                <div class="InfoIcon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="InfoContent">
+                    <h3>Email Us</h3>
+                    <p>info@sbcmi.edu</p>
+                </div>
+            </div>
+            <div class="InfoCard">
+                <div class="InfoIcon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="InfoContent">
+                    <h3>Office Hours</h3>
+                    <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ContactForm">
+            <form>
+                <div class="FormGroup">
+                    <input type="text" class="FormInput" placeholder=" " required>
+                    <label class="FormLabel">Your Name</label>
+                </div>
+                <div class="FormGroup">
+                    <input type="email" class="FormInput" placeholder=" " required>
+                    <label class="FormLabel">Your Email</label>
+                </div>
+                <div class="FormGroup">
+                    <input type="tel" class="FormInput" placeholder=" ">
+                    <label class="FormLabel">Phone Number</label>
+                </div>
+                <div class="FormGroup">
+                    <select class="FormInput" required>
+                        <option value="">Select Inquiry Type</option>
+                        <option value="admission">Admission Inquiry</option>
+                        <option value="academic">Academic Programs</option>
+                        <option value="events">Events & Activities</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="FormGroup">
+                    <textarea class="FormInput FormTextarea" placeholder=" " required></textarea>
+                    <label class="FormLabel">Your Message</label>
+                </div>
+                <button type="submit" class="SubmitButton">
+                    <span>Send Message</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="MapSection">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d981.8675890080825!2d123.78807847796743!3d10.243672600000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a977e4c54ff7b3%3A0x70ac4c650b12bc70!2sSouthern%20Bethany%20Christian%20School%20of%20Minglanilla%2C%20Inc.!5e0!3m2!1sen!2sph!4v1708936049090!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="MapOverlay"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

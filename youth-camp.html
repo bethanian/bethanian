@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youth Camp - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .CampContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .TreeBackground {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .Tree {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .Tree:nth-child(1) { top: 10%; left: 5%; animation: treeWave 3s ease-in-out infinite; }
+        .Tree:nth-child(2) { top: 20%; right: 8%; animation: treeWave 3s ease-in-out infinite 0.5s; }
+        .Tree:nth-child(3) { bottom: 15%; left: 12%; animation: treeWave 3s ease-in-out infinite 1s; }
+        .Tree:nth-child(4) { bottom: 25%; right: 15%; animation: treeWave 3s ease-in-out infinite 1.5s; }
+
+        @keyframes treeWave {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .Stars {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at center, white 0%, transparent 1%) 0 0 / 50px 50px,
+                radial-gradient(circle at center, white 0%, transparent 1%) 25px 25px / 50px 50px;
+            opacity: 0.3;
+            animation: starTwinkle 4s linear infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: titleFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @keyframes titleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .CampHighlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .HighlightCard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .HighlightCard:nth-child(2) { animation-delay: 0.2s; }
+        .HighlightCard:nth-child(3) { animation-delay: 0.4s; }
+        .HighlightCard:nth-child(4) { animation-delay: 0.6s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .HighlightIcon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #FF7900, #FFA500);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .HighlightCard:hover .HighlightIcon {
+            transform: rotateY(360deg);
+        }
+
+        .HighlightIcon::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px dashed #FF7900;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .HighlightCard:hover .HighlightIcon::before {
+            opacity: 1;
+            transform: scale(1.2) rotate(90deg);
+        }
+
+        .HighlightTitle {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .HighlightTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .HighlightCard:hover .HighlightTitle::after {
+            transform: scaleX(1);
+        }
+
+        .HighlightDescription {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            transition: color 0.4s ease;
+        }
+
+        .HighlightCard:hover .HighlightDescription {
+            color: #333;
+        }
+
+        .CampSchedule {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ScheduleTitle {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .ScheduleTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+        }
+
+        .DayCard {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: daySlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .DayCard:nth-child(2) { animation-delay: 0.2s; }
+        .DayCard:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes daySlideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .DayCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 121, 0, 0.2);
+        }
+
+        .DayTitle {
+            font-size: 1.4rem;
+            color: #FF7900;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .DayTitle i {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .DayCard:hover .DayTitle i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .Activity {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .Activity::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: #FF7900;
+            border-radius: 50%;
+            transform: translateY(-50%) scale(0);
+            transition: transform 0.4s ease;
+        }
+
+        .DayCard:hover .Activity::before {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .ActivityTime {
+            font-weight: bold;
+            color: #666;
+            min-width: 100px;
+        }
+
+        .ActivityName {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .PageTitle p {
+                font-size: 1.1rem;
+            }
+
+            .CampHighlights {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="CampContainer">
+        <div class="TreeBackground">
+            <div class="Tree"></div>
+            <div class="Tree"></div>
+            <div class="Tree"></div>
+            <div class="Tree"></div>
+        </div>
+        <div class="Stars"></div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>Youth Camp 2024</h1>
+                <p>Join us for an unforgettable summer adventure filled with fun, friendship, and personal growth!</p>
+            </div>
+
+            <div class="CampHighlights">
+                <div class="HighlightCard">
+                    <div class="HighlightIcon">
+                        <i class="fas fa-campground"></i>
+                    </div>
+                    <h3 class="HighlightTitle">Outdoor Adventure</h3>
+                    <p class="HighlightDescription">Experience exciting outdoor activities including hiking, camping, and nature exploration.</p>
+                </div>
+
+                <div class="HighlightCard">
+                    <div class="HighlightIcon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="HighlightTitle">Team Building</h3>
+                    <p class="HighlightDescription">Develop leadership skills and forge lasting friendships through team activities.</p>
+                </div>
+
+                <div class="HighlightCard">
+                    <div class="HighlightIcon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="HighlightTitle">Creative Arts</h3>
+                    <p class="HighlightDescription">Express yourself through arts and crafts, music, and performance activities.</p>
+                </div>
+
+                <div class="HighlightCard">
+                    <div class="HighlightIcon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <h3 class="HighlightTitle">Water Activities</h3>
+                    <p class="HighlightDescription">Cool off with swimming, water games, and supervised aquatic adventures.</p>
+                </div>
+            </div>
+
+            <div class="CampSchedule">
+                <h2 class="ScheduleTitle">Sample Daily Schedule</h2>
+                
+                <div class="DayCard">
+                    <h3 class="DayTitle">
+                        <i class="fas fa-sun"></i>
+                        Morning Activities
+                    </h3>
+                    <div class="Activity">
+                        <span class="ActivityTime">7:00 AM</span>
+                        <span class="ActivityName">Wake-up Call & Morning Exercise</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">8:00 AM</span>
+                        <span class="ActivityName">Breakfast</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">9:00 AM</span>
+                        <span class="ActivityName">Team Building Activities</span>
+                    </div>
+                </div>
+
+                <div class="DayCard">
+                    <h3 class="DayTitle">
+                        <i class="fas fa-cloud-sun"></i>
+                        Afternoon Activities
+                    </h3>
+                    <div class="Activity">
+                        <span class="ActivityTime">12:00 PM</span>
+                        <span class="ActivityName">Lunch Break</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">1:30 PM</span>
+                        <span class="ActivityName">Swimming & Water Activities</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">3:30 PM</span>
+                        <span class="ActivityName">Arts & Crafts</span>
+                    </div>
+                </div>
+
+                <div class="DayCard">
+                    <h3 class="DayTitle">
+                        <i class="fas fa-moon"></i>
+                        Evening Activities
+                    </h3>
+                    <div class="Activity">
+                        <span class="ActivityTime">6:00 PM</span>
+                        <span class="ActivityName">Dinner</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">7:30 PM</span>
+                        <span class="ActivityName">Campfire & Stories</span>
+                    </div>
+                    <div class="Activity">
+                        <span class="ActivityTime">9:30 PM</span>
+                        <span class="ActivityName">Lights Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academy Overview - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .AcademyHero {
+            height: 70vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .GeometricPattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .GeometricShape {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            animation: shapeFloat 8s ease-in-out infinite;
+        }
+
+        .Circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .Square {
+            width: 80px;
+            height: 80px;
+            transform: rotate(45deg);
+        }
+
+        .Triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86.6px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+        }
+
+        @keyframes shapeFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(90deg); }
+            50% { transform: translate(0, 0) rotate(180deg); }
+            75% { transform: translate(-20px, 20px) rotate(270deg); }
+        }
+
+        .Shape1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .Shape2 { top: 20%; right: 15%; animation-delay: 1s; }
+        .Shape3 { bottom: 15%; left: 20%; animation-delay: 2s; }
+        .Shape4 { bottom: 20%; right: 10%; animation-delay: 3s; }
+
+        .HeroContent {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .HeroContent h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .HeroContent p {
+            font-size: 1.4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .ProgramsSection {
+            padding: 80px 20px;
+            background: #fff;
+        }
+
+        .ProgramsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ProgramCard {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        .ProgramCard:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 121, 0, 0.15);
+        }
+
+        .ProgramImage {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ProgramImage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .ProgramCard:hover .ProgramImage::before {
+            opacity: 1;
+        }
+
+        .ProgramContent {
+            padding: 30px;
+            position: relative;
+        }
+
+        .ProgramContent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            transition: width 0.4s ease;
+        }
+
+        .ProgramCard:hover .ProgramContent::before {
+            width: 80%;
+        }
+
+        .ProgramContent h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .ProgramContent p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .StatsSection {
+            padding: 100px 20px;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .StatsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .StatItem {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .StatItem::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(255, 121, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .StatItem:hover {
+            transform: translateY(-10px);
+        }
+
+        .StatItem:hover::before {
+            opacity: 1;
+        }
+
+        .StatNumber {
+            font-size: 3rem;
+            color: #FF7900;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .StatNumber::after {
+            content: '+';
+            font-size: 2rem;
+            position: absolute;
+            top: 0;
+            right: -20px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s ease;
+        }
+
+        .StatItem:hover .StatNumber::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .StatLabel {
+            color: #666;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .StatLabel::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #FF7900;
+            transition: width 0.4s ease;
+        }
+
+        .StatItem:hover .StatLabel::before {
+            width: 50%;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .WavePattern {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23ffffff"/></svg>') repeat-x;
+            background-size: 1200px 120px;
+            animation: waveMove 20s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1200px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="AcademyHero">
+        <div class="GeometricPattern">
+            <div class="GeometricShape Circle Shape1"></div>
+            <div class="GeometricShape Square Shape2"></div>
+            <div class="GeometricShape Triangle Shape3"></div>
+            <div class="GeometricShape Circle Shape4"></div>
+        </div>
+        <div class="HeroContent">
+            <h1>Academy Overview</h1>
+            <p>Discover our comprehensive academic programs designed to inspire and challenge students at every level.</p>
+        </div>
+    </div>
+
+    <div class="ProgramsSection">
+        <div class="ProgramsGrid">
+            <div class="ProgramCard">
+                <div class="ProgramImage" style="background-image: url('elementary.jpg')"></div>
+                <div class="ProgramContent">
+                    <h3>Elementary School</h3>
+                    <p>Building strong foundations through engaging, hands-on learning experiences that foster curiosity and creativity.</p>
+                </div>
+            </div>
+            <div class="ProgramCard">
+                <div class="ProgramImage" style="background-image: url('middle-school.jpg')"></div>
+                <div class="ProgramContent">
+                    <h3>Middle School</h3>
+                    <p>Developing critical thinking and leadership skills through challenging academics and diverse activities.</p>
+                </div>
+            </div>
+            <div class="ProgramCard">
+                <div class="ProgramImage" style="background-image: url('high-school.jpg')"></div>
+                <div class="ProgramContent">
+                    <h3>High School</h3>
+                    <p>Preparing students for college and beyond through rigorous academics and comprehensive development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="StatsSection">
+        <div class="StatsGrid">
+            <div class="StatItem">
+                <div class="StatNumber">98</div>
+                <div class="StatLabel">College Acceptance Rate</div>
+            </div>
+            <div class="StatItem">
+                <div class="StatNumber">12</div>
+                <div class="StatLabel">Average Class Size</div>
+            </div>
+            <div class="StatItem">
+                <div class="StatNumber">45</div>
+                <div class="StatLabel">Advanced Courses</div>
+            </div>
+            <div class="StatItem">
+                <div class="StatNumber">100</div>
+                <div class="StatLabel">Dedicated Faculty</div>
+            </div>
+        </div>
+        <div class="WavePattern"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

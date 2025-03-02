@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program of Studies - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .ProgramContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundPattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: patternPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes patternPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ProgramTabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .ProgramTab {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ProgramTab::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: white;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+            z-index: 0;
+        }
+
+        .ProgramTab:hover::before,
+        .ProgramTab.Active::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .ProgramTab span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s ease;
+        }
+
+        .ProgramTab:hover span,
+        .ProgramTab.Active span {
+            color: #FF7900;
+        }
+
+        .ProgramContent {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .CourseCard {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: cardSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .CourseCard:nth-child(2) { animation-delay: 0.2s; }
+        .CourseCard:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes cardSlideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .CourseHeader {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .CourseIcon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 121, 0, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .CourseIcon i {
+            font-size: 1.5rem;
+            color: #FF7900;
+            transition: all 0.4s ease;
+        }
+
+        .CourseCard:hover .CourseIcon {
+            transform: translateY(-5px) scale(1.1);
+            background: #FF7900;
+        }
+
+        .CourseCard:hover .CourseIcon i {
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        .CourseInfo {
+            flex: 1;
+        }
+
+        .CourseTitle {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .CourseTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .CourseCard:hover .CourseTitle::after {
+            transform: scaleX(1);
+        }
+
+        .CourseCredits {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .CourseDescription {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .CourseCard:hover .CourseDescription {
+            border-left-color: #FF7900;
+            padding-left: 20px;
+        }
+
+        .CourseHighlights {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .HighlightItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .CourseCard:hover .HighlightItem {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .CourseCard:hover .HighlightItem:nth-child(1) { transition-delay: 0.1s; }
+        .CourseCard:hover .HighlightItem:nth-child(2) { transition-delay: 0.2s; }
+        .CourseCard:hover .HighlightItem:nth-child(3) { transition-delay: 0.3s; }
+
+        .HighlightItem i {
+            color: #FF7900;
+            font-size: 0.8rem;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .PageTitle p {
+                font-size: 1.1rem;
+            }
+
+            .ProgramContent {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="ProgramContainer">
+        <div class="BackgroundPattern"></div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>Program of Studies</h1>
+                <p>Explore our diverse academic programs designed to nurture intellectual growth, creativity, and spiritual development.</p>
+            </div>
+
+            <div class="ProgramTabs">
+                <div class="ProgramTab Active"><span>Elementary</span></div>
+                <div class="ProgramTab"><span>Junior High</span></div>
+                <div class="ProgramTab"><span>Senior High</span></div>
+            </div>
+
+            <div class="ProgramContent">
+                <div class="CourseCard">
+                    <div class="CourseHeader">
+                        <div class="CourseIcon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="CourseInfo">
+                            <h3 class="CourseTitle">Core Subjects</h3>
+                            <div class="CourseCredits">Foundation Program</div>
+                        </div>
+                    </div>
+                    <p class="CourseDescription">Essential subjects focusing on fundamental knowledge and skills development.</p>
+                    <ul class="CourseHighlights">
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Mathematics and Science</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Language and Literature</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Social Studies</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="CourseCard">
+                    <div class="CourseHeader">
+                        <div class="CourseIcon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="CourseInfo">
+                            <h3 class="CourseTitle">Arts & Music</h3>
+                            <div class="CourseCredits">Creative Expression</div>
+                        </div>
+                    </div>
+                    <p class="CourseDescription">Develop artistic skills and musical talents through hands-on creative activities.</p>
+                    <ul class="CourseHighlights">
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Visual Arts</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Music Theory</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Performance Arts</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="CourseCard">
+                    <div class="CourseHeader">
+                        <div class="CourseIcon">
+                            <i class="fas fa-cross"></i>
+                        </div>
+                        <div class="CourseInfo">
+                            <h3 class="CourseTitle">Christian Values</h3>
+                            <div class="CourseCredits">Spiritual Formation</div>
+                        </div>
+                    </div>
+                    <p class="CourseDescription">Nurture spiritual growth and character development through biblical teachings.</p>
+                    <ul class="CourseHighlights">
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Bible Studies</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Character Education</span>
+                        </li>
+                        <li class="HighlightItem">
+                            <i class="fas fa-star"></i>
+                            <span>Community Service</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

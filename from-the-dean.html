@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From the Dean - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .DeanContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundElements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: backgroundPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        .GeometricShape {
+            position: absolute;
+            opacity: 0.1;
+            background: white;
+            animation: shapeFloat 20s infinite ease-in-out;
+            filter: blur(2px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Pentagon {
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        }
+
+        .Hexagon {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(-45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+        }
+
+        .Shape1 { top: 15%; left: 10%; animation-delay: 0s; transform-origin: center; }
+        .Shape2 { top: 25%; right: 15%; animation-delay: -5s; transform-origin: top right; }
+        .Shape3 { bottom: 20%; left: 20%; animation-delay: -10s; transform-origin: bottom left; }
+        .Shape4 { bottom: 30%; right: 25%; animation-delay: -15s; transform-origin: bottom right; }
+
+        @keyframes shapeFloat {
+            0% {
+                transform: rotate(0deg) translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            25% {
+                transform: rotate(45deg) translate(30px, -30px) scale(1.2);
+                opacity: 0.15;
+            }
+            50% {
+                transform: rotate(90deg) translate(0, -50px) scale(1);
+                opacity: 0.1;
+            }
+            75% {
+                transform: rotate(135deg) translate(-30px, -30px) scale(1.2);
+                opacity: 0.15;
+            }
+            100% {
+                transform: rotate(180deg) translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: start;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: contentFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes contentFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .DeanPhoto {
+            position: sticky;
+            top: 100px;
+            border-radius: 30px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .PhotoFrame {
+            position: relative;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            transform: translateZ(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .PhotoFrame:hover {
+            transform: translateZ(100px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: 
+                30px 30px 60px rgba(0, 0, 0, 0.2),
+                -30px -30px 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .PhotoFrame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3));
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .PhotoFrame:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) rotate(-45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(-45deg);
+            }
+        }
+
+        .PhotoFrame img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            transform: translateZ(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: grayscale(0.3);
+        }
+
+        .PhotoFrame:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0);
+        }
+
+        .MessageContent {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .MessageContent:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .MessageContent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(255, 121, 0, 0.1), transparent 70%);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .MessageContent:hover::before {
+            opacity: 1;
+            animation: glowPulse 2s infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .MessageTitle {
+            font-size: 2.5rem;
+            color: #FF7900;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: titleSlideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes titleSlideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .MessageTitle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, #FFA500);
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .MessageContent:hover .MessageTitle::after {
+            width: 100%;
+        }
+
+        .MessageText {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textFadeIn 0.8s ease-out forwards;
+            position: relative;
+            padding-left: 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .MessageContent:hover .MessageText {
+            border-left-color: #FF7900;
+            padding-left: 20px;
+            color: #333;
+        }
+
+        .MessageText:nth-child(2) { animation-delay: 0.2s; }
+        .MessageText:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes textFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .Signature {
+            margin-top: 40px;
+            text-align: right;
+            position: relative;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .SignatureContent {
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Signature:hover .SignatureContent {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .SignatureName {
+            font-size: 1.4rem;
+            color: #FF7900;
+            margin-bottom: 5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .SignatureName::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #FF7900, transparent);
+            transform: scaleX(0);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Signature:hover .SignatureName::after {
+            transform: scaleX(1);
+        }
+
+        .SignatureTitle {
+            margin-right: 9px;
+            font-size: 1rem;
+            color: #666;
+            transition: color 0.4s ease;
+        }
+
+        .Signature:hover .SignatureTitle {
+            color: #FF7900;
+        }
+
+        @media (max-width: 768px) {
+            .ContentWrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .DeanPhoto {
+                position: relative;
+                top: 0;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="DeanContainer">
+        <div class="BackgroundElements">
+            <div class="GeometricShape Pentagon Shape1"></div>
+            <div class="GeometricShape Hexagon Shape2"></div>
+            <div class="GeometricShape Pentagon Shape3"></div>
+            <div class="GeometricShape Hexagon Shape4"></div>
+        </div>
+
+        <div class="ContentWrapper">
+            <div class="DeanPhoto">
+                <div class="PhotoFrame">
+                    <img src="placeholder.jpg" alt="Dean">
+                </div>
+            </div>
+            <div class="MessageContent">
+                <h1 class="MessageTitle">From the Dean of Academics</h1>
+                <p class="MessageText">Welcome to the academic heart of Southern Bethany Christian School of Minglanilla, Inc. As Dean of Academics, I am privileged to oversee our institution's commitment to educational excellence and spiritual growth.</p>
+                
+                <p class="MessageText">Our academic program is designed to challenge, inspire, and empower students to reach their full potential. We believe in fostering critical thinking, creativity, and character development through a comprehensive curriculum that integrates Christian values with modern educational practices.</p>
+                
+                <p class="MessageText">Together with our dedicated faculty, we strive to create an environment where students can explore their interests, develop their talents, and prepare for the challenges of higher education and beyond.</p>
+                
+                <div class="Signature">
+                    <div class="SignatureContent">
+                        <div class="SignatureName">Dr. Maria Santos</div>
+                        <div class="SignatureTitle">Dean of Academics</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

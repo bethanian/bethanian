@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Tryouts - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <style>
+        .TryoutsContainer {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF7900, #FFA500);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .BackgroundCircles {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+        }
+
+        .Circle {
+            position: absolute;
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: pulseAndRotate linear infinite;
+        }
+
+        .Circle:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 5%; animation-duration: 15s; }
+        .Circle:nth-child(2) { width: 150px; height: 150px; top: 30%; right: 10%; animation-duration: 20s; }
+        .Circle:nth-child(3) { width: 80px; height: 80px; bottom: 20%; left: 15%; animation-duration: 12s; }
+        .Circle:nth-child(4) { width: 120px; height: 120px; bottom: 15%; right: 8%; animation-duration: 18s; }
+
+        @keyframes pulseAndRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.2;
+            }
+        }
+
+        .ContentWrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .PageTitle {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: titleFadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .PageTitle h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .PageTitle p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @keyframes titleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .TryoutSchedule {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: scheduleSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.2s;
+        }
+
+        @keyframes scheduleSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ScheduleTitle {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .ScheduleTitle::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .TryoutSchedule:hover .ScheduleTitle::after {
+            transform: scaleX(1);
+        }
+
+        .ScheduleGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .SportSchedule {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .SportSchedule:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 121, 0, 0.2);
+        }
+
+        .SportIcon {
+            font-size: 2rem;
+            color: #FF7900;
+            margin-bottom: 15px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .SportSchedule:hover .SportIcon {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .SportName {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .SportName::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #FF7900, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .SportSchedule:hover .SportName::after {
+            transform: scaleX(1);
+        }
+
+        .ScheduleDetails {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ScheduleItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            transform: translateX(-20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .SportSchedule:hover .ScheduleItem {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .SportSchedule:hover .ScheduleItem:nth-child(1) { transition-delay: 0.1s; }
+        .SportSchedule:hover .ScheduleItem:nth-child(2) { transition-delay: 0.2s; }
+        .SportSchedule:hover .ScheduleItem:nth-child(3) { transition-delay: 0.3s; }
+
+        .ScheduleItem i {
+            color: #FF7900;
+            font-size: 1rem;
+        }
+
+        .RegisterSection {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            margin-top: 40px;
+            position: relative;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: registerSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.4s;
+        }
+
+        @keyframes registerSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .RegisterTitle {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .RegisterSteps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .Step {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .StepNumber {
+            width: 40px;
+            height: 40px;
+            background: #FF7900;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin: 0 auto 15px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .Step:hover .StepNumber {
+            transform: scale(1.2);
+            box-shadow: 0 5px 15px rgba(255, 121, 0, 0.3);
+        }
+
+        .StepTitle {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .StepDescription {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .RegisterButton {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #FF7900, #FFA500);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .RegisterButton:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 121, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .PageTitle h1 {
+                font-size: 2.5rem;
+            }
+
+            .PageTitle p {
+                font-size: 1.1rem;
+            }
+
+            .ScheduleGrid {
+                grid-template-columns: 1fr;
+            }
+
+            .RegisterSteps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="TryoutsContainer">
+        <div class="BackgroundCircles">
+            <div class="Circle"></div>
+            <div class="Circle"></div>
+            <div class="Circle"></div>
+            <div class="Circle"></div>
+        </div>
+
+        <div class="ContentWrapper">
+            <div class="PageTitle">
+                <h1>Sports Tryouts</h1>
+                <p>Take the first step towards becoming part of our championship teams!</p>
+            </div>
+
+            <div class="TryoutSchedule">
+                <h2 class="ScheduleTitle">Upcoming Tryout Dates</h2>
+                <div class="ScheduleGrid">
+                    <div class="SportSchedule">
+                        <i class="fas fa-basketball-ball SportIcon"></i>
+                        <h3 class="SportName">Basketball</h3>
+                        <ul class="ScheduleDetails">
+                            <li class="ScheduleItem">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>October 15-16, 2024</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-clock"></i>
+                                <span>3:30 PM - 5:30 PM</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Main Gymnasium</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="SportSchedule">
+                        <i class="fas fa-volleyball-ball SportIcon"></i>
+                        <h3 class="SportName">Volleyball</h3>
+                        <ul class="ScheduleDetails">
+                            <li class="ScheduleItem">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>August 20-21, 2024</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-clock"></i>
+                                <span>4:00 PM - 6:00 PM</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Indoor Court</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="SportSchedule">
+                        <i class="fas fa-swimming-pool SportIcon"></i>
+                        <h3 class="SportName">Swimming</h3>
+                        <ul class="ScheduleDetails">
+                            <li class="ScheduleItem">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Year-round Tryouts</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-clock"></i>
+                                <span>6:00 AM - 8:00 AM</span>
+                            </li>
+                            <li class="ScheduleItem">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Aquatic Center</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="RegisterSection">
+                <h2 class="RegisterTitle">How to Register</h2>
+                <div class="RegisterSteps">
+                    <div class="Step">
+                        <div class="StepNumber">1</div>
+                        <h3 class="StepTitle">Complete Form</h3>
+                        <p class="StepDescription">Fill out the online registration form with your personal information and sport preferences.</p>
+                    </div>
+
+                    <div class="Step">
+                        <div class="StepNumber">2</div>
+                        <h3 class="StepTitle">Medical Clearance</h3>
+                        <p class="StepDescription">Submit a recent medical clearance form from your healthcare provider.</p>
+                    </div>
+
+                    <div class="Step">
+                        <div class="StepNumber">3</div>
+                        <h3 class="StepTitle">Attend Tryouts</h3>
+                        <p class="StepDescription">Show up at your scheduled tryout date ready to showcase your skills!</p>
+                    </div>
+                </div>
+                <a href="#" class="RegisterButton">Register Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 

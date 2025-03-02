@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarships & Financial Aid - SBCSMI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.cdnfonts.com/css/tt-gertika" rel="stylesheet">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="SharedComponents.css">
+    <script src="Scripts.js" defer></script>
+    <style>
+        .PageContent {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .ScholarshipSection {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .ScholarshipGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .ScholarshipCard {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ScholarshipCard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #FF7900;
+            transition: width 0.3s ease;
+        }
+
+        .ScholarshipCard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 121, 0, 0.15);
+        }
+
+        .ScholarshipCard:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .ScholarshipAmount {
+            font-size: 24px;
+            color: #FF7900;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .RequirementsList {
+            list-style: none;
+            padding: 0;
+        }
+
+        .RequirementsList li {
+            padding: 10px;
+            margin: 8px 0;
+            background: #fff5eb;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .RequirementsList li:hover {
+            transform: translateX(5px);
+        }
+
+        .RequirementsList li i {
+            color: #FF7900;
+            margin-right: 10px;
+        }
+
+        .FinancialAidSteps {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .FinancialAidSteps li {
+            position: relative;
+            padding: 20px 20px 20px 70px;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .FinancialAidSteps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 35px;
+            background: #FF7900;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .FinancialAidSteps li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px rgba(255, 121, 0, 0.2);
+        }
+
+        .FinancialAidSteps li:hover::before {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 121, 0, 0.4);
+        }
+
+        .ContactBox {
+            background: #fff5eb;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            border: 2px dashed #FF7900;
+        }
+
+        .ContactBox h3 {
+            color: #FF7900;
+            margin-bottom: 15px;
+        }
+
+        .ContactInfo {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 25px;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(255, 121, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ContactInfo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 121, 0, 0.2);
+        }
+
+        .ContactInfo i {
+            color: #FF7900;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="home.html" class="logo">
+            <span>S</span><span>B</span><span>C</span><span>S</span><span>M</span><span>I</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="home.html#admissions">Admissions</a></li>
+                <li><a href="home.html#academics">Academics</a></li>
+                <li><a href="home.html#athletics">Athletics</a></li>
+                <li><a href="home.html#summer">Summer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="PageContent">
+        <a href="home.html#admissions" class="BackToMain"><i class="fas fa-arrow-left"></i> Back to Admissions</a>
+        
+        <div class="ScholarshipSection AnimatedEntry">
+            <h1><i class="fas fa-award"></i> Scholarships & Financial Aid</h1>
+            <p>We believe that every student deserves access to quality education. Explore our scholarship opportunities and financial aid options.</p>
+            
+            <div class="ScholarshipGrid">
+                <div class="ScholarshipCard">
+                    <h3>Academic Excellence Scholarship</h3>
+                    <div class="ScholarshipAmount">Up to 100% Tuition</div>
+                    <p>For students with outstanding academic achievements.</p>
+                    <ul class="RequirementsList">
+                        <li><i class="fas fa-check"></i> GPA of 3.8 or higher</li>
+                        <li><i class="fas fa-check"></i> Strong leadership qualities</li>
+                        <li><i class="fas fa-check"></i> Community involvement</li>
+                    </ul>
+                    <a href="#" class="SharedButton">Apply Now</a>
+                </div>
+
+                <div class="ScholarshipCard">
+                    <h3>Athletic Scholarship</h3>
+                    <div class="ScholarshipAmount">Up to 75% Tuition</div>
+                    <p>For exceptional athletes who excel in sports.</p>
+                    <ul class="RequirementsList">
+                        <li><i class="fas fa-check"></i> Outstanding athletic ability</li>
+                        <li><i class="fas fa-check"></i> Minimum GPA of 3.0</li>
+                        <li><i class="fas fa-check"></i> Coach recommendation</li>
+                    </ul>
+                    <a href="#" class="SharedButton">Apply Now</a>
+                </div>
+
+                <div class="ScholarshipCard">
+                    <h3>Arts & Culture Scholarship</h3>
+                    <div class="ScholarshipAmount">Up to 50% Tuition</div>
+                    <p>For talented students in visual arts, music, or performing arts.</p>
+                    <ul class="RequirementsList">
+                        <li><i class="fas fa-check"></i> Portfolio submission</li>
+                        <li><i class="fas fa-check"></i> Performance audition</li>
+                        <li><i class="fas fa-check"></i> Minimum GPA of 3.0</li>
+                    </ul>
+                    <a href="#" class="SharedButton">Apply Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="ScholarshipSection AnimatedEntry" style="animation-delay: 0.2s;">
+            <h2>Financial Aid Process</h2>
+            <ol class="FinancialAidSteps">
+                <li>
+                    <h3>Complete FAFSA</h3>
+                    <p>Fill out the Free Application for Federal Student Aid (FAFSA) form.</p>
+                </li>
+                <li>
+                    <h3>Submit Required Documents</h3>
+                    <p>Provide income statements, tax returns, and other necessary documentation.</p>
+                </li>
+                <li>
+                    <h3>Review Aid Package</h3>
+                    <p>Meet with our financial aid counselors to review your aid package.</p>
+                </li>
+                <li>
+                    <h3>Accept Aid Offer</h3>
+                    <p>Accept your financial aid offer and complete any additional requirements.</p>
+                </li>
+            </ol>
+        </div>
+
+        <div class="ContactBox AnimatedEntry" style="animation-delay: 0.4s;">
+            <h3>Need Help?</h3>
+            <p>Our financial aid office is here to assist you through the process.</p>
+            <div style="margin-top: 15px;">
+                <span class="ContactInfo">
+                    <i class="fas fa-envelope"></i> financial.aid@sbcmi.edu
+                </span>
+                <span class="ContactInfo">
+                    <i class="fas fa-phone"></i> (123) 456-7890
+                </span>
+                <span class="ContactInfo">
+                    <i class="fas fa-clock"></i> Mon-Fri, 8:00 AM - 4:00 PM
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Contact us: Upper Tulay, Minglanilla, Cebu | Phone: (123) 456-7890 | Email: info@sbcmi.edu</p>
+    </footer>
+</body>
+</html> 
