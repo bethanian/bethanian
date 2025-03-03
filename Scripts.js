@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             
-            // If we're not on home.html, let the normal navigation happen
-            if (!href.startsWith('home.html#')) {
+            // If we're not on index.html, let the normal navigation happen
+            if (!href.startsWith('index.html#')) {
                 return;
             }
             
-            // If we are already on home.html, prevent default and scroll
-            if (window.location.pathname.endsWith('home.html')) {
+            // If we are already on index.html, prevent default and scroll
+            if (window.location.pathname.endsWith('index.html')) {
                 e.preventDefault();
                 const sectionId = href.split('#')[1];
                 const section = document.getElementById(sectionId);
